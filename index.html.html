@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FlipDocs – Free PDF, Word & Image Tools. No Login.</title>
+<meta name="description" content="Free online JPG to PDF, JPEG to PDF, PDF compress, JPG compress, PDF to Word and Word to PDF. No login. Files stay in your browser.">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#eef2f8;--panel:#fff;--ink:#14213d;--mute:#56627a;--line:#d5dcea;--acc:#2b59ff;--accink:#fff;--hi:#ffd23f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1526;--panel:#17213a;--ink:#eaf0ff;--mute:#9aa8c7;--line:#2a3757;--acc:#6f93ff;--accink:#0e1526;--hi:#ffd23f}}
+:root[data-theme="dark"]{--bg:#0e1526;--panel:#17213a;--ink:#eaf0ff;--mute:#9aa8c7;--line:#2a3757;--acc:#6f93ff;--accink:#0e1526;--hi:#ffd23f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:'Bricolage Grotesque',Georgia,sans-serif;line-height:1.1;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+.logo{font:800 26px 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em}
+.logo b{background:var(--hi);color:#14213d;padding:0 6px;border-radius:6px;margin-left:2px}
+.hero{padding:28px 0 36px}
+.hero h1{font-size:clamp(34px,6vw,60px);font-weight:800;letter-spacing:-.03em;max-width:15em}
+.hero p{color:var(--mute);font-size:18px;max-width:34em;margin:14px 0 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.tool{all:unset;box-sizing:border-box;cursor:pointer;background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:18px;display:block}
+.tool:hover{border-color:var(--acc)}
+.tool:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,label:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.tool[aria-pressed=true]{border-color:var(--acc);box-shadow:6px 6px 0 var(--acc)}
+.tool h3{font-size:20px}
+.tool p{margin:6px 0 0;color:var(--mute);font-size:14.5px}
+.fmt{display:inline-block;font:700 13px 'Bricolage Grotesque',sans-serif;background:var(--hi);color:#14213d;border-radius:6px;padding:1px 8px;margin-bottom:10px}
+#work{background:var(--panel);border:2px solid var(--ink);border-radius:16px;padding:24px;margin:22px 0 40px}
+#work h2{font-size:28px}
+#work .desc{color:var(--mute);margin:6px 0 16px}
+.drop{display:block;border:2px dashed var(--acc);border-radius:12px;padding:30px 16px;text-align:center;cursor:pointer;font-weight:600}
+.drop.over{background:color-mix(in srgb,var(--acc) 12%,transparent)}
+.drop input{position:absolute;opacity:0;width:1px;height:1px}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:14px}
+button.go{background:var(--acc);color:var(--accink);border:0;border-radius:10px;padding:12px 22px;font:700 16px 'Bricolage Grotesque',sans-serif;cursor:pointer}
+button.go:disabled{opacity:.45;cursor:not-allowed}
+#files{margin:12px 0 0;padding:0;list-style:none;font-size:14.5px;color:var(--mute)}
+#status{margin-top:14px;font-weight:600;min-height:1.6em}
+.res a{display:inline-block;margin:6px 10px 0 0;background:var(--hi);color:#14213d;font-weight:700;padding:8px 14px;border-radius:8px;text-decoration:none}
+.note{font-size:14px;color:var(--mute);margin-top:14px}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;padding:10px 0 40px}
+.info h3{font-size:19px;margin-bottom:6px}.info p{margin:0;color:var(--mute);font-size:15px}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--mute);font-size:14px}
+input[type=range]{accent-color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="logo">Flip<b>Docs</b></div><div style="color:var(--mute);font-size:14px">Free · No login · Open source</div></header>
+
+<section class="hero">
+<h1>Every PDF, Word and image tool in one place.</h1>
+<p>Pick a tool, drop your file, download the result. No account, no upload to a server: your files are processed inside your browser.</p>
+</section>
+
+<section aria-label="Tools"><div class="grid" id="grid"></div></section>
+
+<section id="work" aria-live="polite">
+<h2 id="wt"></h2><p class="desc" id="wd"></p>
+<label class="drop" id="drop"><span id="dl">Choose files or drop them here</span><input type="file" id="fi"></label>
+<ul id="files"></ul>
+<div class="row" id="opts"></div>
+<div class="row"><button class="go" id="run" disabled>Convert</button></div>
+<div id="status"></div><div class="res" id="res"></div>
+<p class="note" id="wn"></p>
+</section>
+
+<section class="info">
+<div><h3>No login, no limits</h3><p>Use every tool as often as you like. FlipDocs never asks for an email or a password.</p></div>
+<div><h3>Your files stay with you</h3><p>Conversion runs on your device, so documents are not sent to a server.</p></div>
+<div><h3>Built with open source</h3><p>Powered by pdf-lib, PDF.js, docx, mammoth, JSZip and PptxGenJS, all free and open source libraries.</p></div>
+</section>
+<footer>FlipDocs · Free PDF, Word &amp; Image Tools. PDF to Word, Word to PDF and PowerPoint to PDF are basic and run in the browser, so complex layouts are not kept exactly.</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@7.8.2/build/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const kb=n=>n>1048576?(n/1048576).toFixed(2)+' MB':Math.round(n/1024)+' KB';
+const buf=f=>f.arrayBuffer();
+const quality=()=>parseFloat($('q')?.value||0.7);
+const stat=t=>$('status').textContent=t;
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+async function loadImg(f){return await createImageBitmap(f)}
+function toBlob(c,q){return new Promise(r=>c.toBlob(r,'image/jpeg',q))}
+async function pageImages(file,scale,q,onp){
+  const pdf=await pdfjsLib.getDocument({data:await buf(file)}).promise,out=[];
+  for(let i=1;i<=pdf.numPages;i++){
+    const pg=await pdf.getPage(i),vp=pg.getViewport({scale}),c=document.createElement('canvas');
+    c.width=vp.width;c.height=vp.height;
+    await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
+    out.push({blob:await toBlob(c,q),w:pg.getViewport({scale:1}).width,h:pg.getViewport({scale:1}).height});
+    onp(i,pdf.numPages);
+  }
+  return out;
+}
+
+const TOOLS=[
+{id:'jpg-to-pdf',fmt:'JPG / JPEG → PDF',name:'JPG & JPEG to PDF',desc:'Combine one or many JPG, JPEG or PNG images into a single PDF.',accept:'image/*',multi:true,btn:'Create PDF',
+ note:'Images are added in the order you select them, one per page.',
+ async run(files){
+  const {PDFDocument}=PDFLib,pdf=await PDFDocument.create();
+  for(const [i,f] of files.entries()){
+    stat(`Adding image ${i+1} of ${files.length}…`);
+    const b=new Uint8Array(await buf(f));let img;
+    if(f.type==='image/jpeg')img=await pdf.embedJpg(b);
+    else if(f.type==='image/png')img=await pdf.embedPng(b);
+    else{const bm=await loadImg(f),c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;c.getContext('2d').drawImage(bm,0,0);img=await pdf.embedJpg(new Uint8Array(await (await toBlob(c,.92)).arrayBuffer()))}
+    const W=595,H=842,m=24,s=Math.min((W-2*m)/img.width,(H-2*m)/img.height),w=img.width*s,h=img.height*s;
+    pdf.addPage([W,H]).drawImage(img,{x:(W-w)/2,y:(H-h)/2,width:w,height:h});
+  }
+  return [{blob:new Blob([await pdf.save()],{type:'application/pdf'}),name:'images.pdf'}];
+ }},
+{id:'jpg-compress',fmt:'JPG / JPEG',name:'Compress JPG & JPEG',desc:'Make photos smaller for email, forms and websites.',accept:'image/*',multi:true,btn:'Compress images',slider:true,
+ note:'Lower quality gives a smaller file. 70% is a good balance for most photos.',
+ async run(files){
+  const out=[];
+  for(const [i,f] of files.entries()){
+    stat(`Compressing ${i+1} of ${files.length}…`);
+    const bm=await loadImg(f),c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;
+    const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(bm,0,0);
+    const b=await toBlob(c,quality());
+    out.push({blob:b.size<f.size?b:f,name:f.name.replace(/\.\w+$/,'')+'-compressed.jpg',info:`${kb(f.size)} → ${kb(Math.min(b.size,f.size))}`});
+  }
+  return out;
+ }},
+{id:'pdf-compress',fmt:'PDF',name:'Compress PDF',desc:'Reduce the size of a PDF, best for scanned or image-heavy files.',accept:'application/pdf',multi:false,btn:'Compress PDF',slider:true,
+ note:'Each page is re-saved as an image, so text can no longer be selected. Works best on scans and photos. Not suited to text-only PDFs.',
+ async run(files){
+  const f=files[0],pages=await pageImages(f,1.4,quality(),(i,n)=>stat(`Compressing page ${i} of ${n}…`));
+  const pdf=await PDFLib.PDFDocument.create();
+  for(const p of pages){const im=await pdf.embedJpg(new Uint8Array(await p.blob.arrayBuffer()));pdf.addPage([p.w,p.h]).drawImage(im,{x:0,y:0,width:p.w,height:p.h})}
+  const b=new Blob([await pdf.save()],{type:'application/pdf'}),keep=b.size<f.size;
+  return [{blob:keep?b:f,name:f.name.replace(/\.pdf$/i,'')+'-compressed.pdf',info:keep?`${kb(f.size)} → ${kb(b.size)}`:`Already small (${kb(f.size)}), original kept`}];
+ }},
+{id:'pdf-to-word',fmt:'PDF → DOCX',name:'PDF to Word',desc:'Turn the text of a PDF into an editable Word document.',accept:'application/pdf',multi:false,btn:'Convert to Word',
+ note:'Text only. Tables, images and exact layout are not kept. Scanned PDFs have no text to extract.',
+ async run(files){
+  const f=files[0],pdf=await pdfjsLib.getDocument({data:await buf(f)}).promise,{Document,Packer,Paragraph,TextRun,PageBreak}=docx,paras=[];
+  for(let i=1;i<=pdf.numPages;i++){
+    stat(`Reading page ${i} of ${pdf.numPages}…`);
+    const items=(await(await pdf.getPage(i)).getTextContent()).items.filter(t=>t.str.trim()!==''||t.hasEOL);
+    let line=[],y=null,gaps=[],last=null;
+    const rows=[];
+    for(const t of items){const ty=Math.round(t.transform[5]);if(y!==null&&Math.abs(ty-y)>3){rows.push({y,s:line.join(' ')});line=[]}y=ty;line.push(t.str)}
+    if(line.length)rows.push({y,s:line.join(' ')});
+    for(const r of rows){if(last!==null)gaps.push(Math.abs(last-r.y));last=r.y}
+    const med=gaps.sort((a,b)=>a-b)[Math.floor(gaps.length/2)]||12;
+    let buf2='';last=null;
+    for(const r of rows){
+      if(last!==null&&Math.abs(last-r.y)>med*1.6&&buf2){paras.push(new Paragraph({spacing:{after:140},children:[new TextRun(buf2)]}));buf2=''}
+      buf2+=(buf2?' ':'')+r.s.replace(/\s+/g,' ').trim();last=r.y;
+    }
+    if(buf2)paras.push(new Paragraph({spacing:{after:140},children:[new TextRun(buf2)]}));
+    if(i<pdf.numPages)paras.push(new Paragraph({children:[new PageBreak()]}));
+  }
+  if(!paras.length)throw new Error('No text found. This PDF may be a scan.');
+  const d=new Document({sections:[{children:paras}]});
+  return [{blob:await Packer.toBlob(d),name:f.name.replace(/\.pdf$/i,'')+'.docx'}];
+ }},
+{id:'word-to-pdf',fmt:'DOCX → PDF',name:'Word to PDF',desc:'Turn the text of a Word (.docx) file into a PDF.',accept:'.docx',multi:false,btn:'Convert to PDF',
+ note:'Text only, in a plain font. Images, tables and fancy formatting are not kept. Letters outside basic Latin may show as "?".',
+ async run(files){
+  const f=files[0],{value}=await mammoth.extractRawText({arrayBuffer:await buf(f)});
+  const pdf=await PDFLib.PDFDocument.create(),font=await pdf.embedFont(PDFLib.StandardFonts.Helvetica);
+  const W=595,H=842,m=56,sz=11,lh=16,maxW=W-2*m;
+  let page=pdf.addPage([W,H]),y=H-m;
+  const safe=s=>s.replace(/[^\x20-\x7E\xA0-\xFF]/g,'?');
+  for(const para of value.split('\n')){
+    const words=safe(para).split(/\s+/).filter(Boolean);let ln='';
+    const flush=()=>{if(y<m){page=pdf.addPage([W,H]);y=H-m}page.drawText(ln,{x:m,y,size:sz,font});y-=lh;ln=''};
+    if(!words.length){y-=lh/2;continue}
+    for(const w of words){const t=ln?ln+' '+w:w;if(font.widthOfTextAtSize(t,sz)>maxW&&ln){flush();ln=w}else ln=t}
+    if(ln)flush();y-=4;
+  }
+  return [{blob:new Blob([await pdf.save()],{type:'application/pdf'}),name:f.name.replace(/\.docx$/i,'')+'.pdf'}];
+ }},
+{id:'ppt-to-pdf',fmt:'PPTX → PDF',name:'PowerPoint to PDF',desc:'Turn a .pptx presentation into a PDF, one page per slide.',accept:'.pptx',multi:false,btn:'Convert to PDF',
+ note:'Keeps slide size, text positions, sizes, bold and colours, and pictures. Backgrounds, shapes, charts and tables are not drawn. For an exact copy, use PowerPoint: File > Export > PDF.',
+ async run(files){
+  const f=files[0],z=await JSZip.loadAsync(await buf(f)),P=new DOMParser();
+  const pr=await z.file('ppt/presentation.xml').async('string'),m=pr.match(/<p:sldSz[^>]*>/)[0];
+  const W=(+m.match(/cx="(\d+)"/)[1])/12700,H=(+m.match(/cy="(\d+)"/)[1])/12700;
+  const names=Object.keys(z.files).filter(n=>/^ppt\/slides\/slide\d+\.xml$/.test(n)).sort((a,b)=>a.match(/\d+/)[0]-b.match(/\d+/)[0]);
+  const pdf=await PDFLib.PDFDocument.create(),reg=await pdf.embedFont(PDFLib.StandardFonts.Helvetica),bold=await pdf.embedFont(PDFLib.StandardFonts.HelveticaBold);
+  const safe=s=>s.replace(/[^\x20-\x7E\xA0-\xFF]/g,'?');
+  const X=e=>e.getElementsByTagName.bind(e);
+  for(const [i,n] of names.entries()){
+    stat(`Converting slide ${i+1} of ${names.length}…`);
+    const doc=P.parseFromString(await z.file(n).async('string'),'text/xml'),page=pdf.addPage([W,H]);
+    const rf=z.file(n.replace('slides/','slides/_rels/')+'.rels'),rels={};
+    if(rf){const rd=P.parseFromString(await rf.async('string'),'text/xml');for(const r of rd.getElementsByTagName('Relationship'))rels[r.getAttribute('Id')]=r.getAttribute('Target')}
+    let flow=H*.06;
+    const tree=doc.getElementsByTagName('p:spTree')[0];
+    for(const el of tree.children){
+      const xf=el.getElementsByTagName('a:xfrm')[0],off=xf&&xf.getElementsByTagName('a:off')[0],ext=xf&&xf.getElementsByTagName('a:ext')[0];
+      let bx=W*.07,by=flow,bw=W*.86,bh=H*.2;
+      if(off&&ext){bx=+off.getAttribute('x')/12700;by=+off.getAttribute('y')/12700;bw=+ext.getAttribute('cx')/12700;bh=+ext.getAttribute('cy')/12700}
+      if(el.tagName==='p:pic'){
+        try{const bl=el.getElementsByTagName('a:blip')[0],t=rels[bl.getAttribute('r:embed')],path='ppt/'+t.replace('../',''),ex=path.split('.').pop().toLowerCase();
+          if(ex==='png'||ex==='jpg'||ex==='jpeg'){const d=new Uint8Array(await z.file(path).async('arraybuffer')),im=ex==='png'?await pdf.embedPng(d):await pdf.embedJpg(d);page.drawImage(im,{x:bx,y:H-by-bh,width:bw,height:bh})}}catch(e){}
+        continue;
+      }
+      if(el.tagName!=='p:sp')continue;
+      let y=H-by;
+      for(const p of el.getElementsByTagName('a:p')){
+        const runs=[...p.getElementsByTagName('a:r')];if(!runs.length){y-=12;continue}
+        const rp=runs[0].getElementsByTagName('a:rPr')[0],sz=Math.min(rp&&rp.getAttribute('sz')?rp.getAttribute('sz')/100:18,72),fnt=rp&&rp.getAttribute('b')==='1'?bold:reg;
+        const clr=rp&&rp.getElementsByTagName('a:srgbClr')[0],hx=clr?clr.getAttribute('val'):'000000',col=PDFLib.rgb(parseInt(hx.slice(0,2),16)/255,parseInt(hx.slice(2,4),16)/255,parseInt(hx.slice(4,6),16)/255);
+        const words=safe(runs.map(r=>r.getElementsByTagName('a:t')[0]?.textContent||'').join('')).split(/\s+/).filter(Boolean);let ln='';
+        const out=()=>{y-=sz*1.2;page.drawText(ln,{x:bx,y,size:sz,font:fnt,color:col});ln=''};
+        for(const w of words){const t=ln?ln+' '+w:w;if(fnt.widthOfTextAtSize(t,sz)>bw&&ln){out();ln=w}else ln=t}
+        if(ln)out();y-=sz*.3;
+      }
+      if(!off)flow=H-y+8;
+    }
+  }
+  return [{blob:new Blob([await pdf.save()],{type:'application/pdf'}),name:f.name.replace(/\.pptx$/i,'')+'.pdf'}];
+ }},
+{id:'pdf-to-ppt',fmt:'PDF → PPTX',name:'PDF to PowerPoint',desc:'Turn each PDF page into a PowerPoint slide that looks the same.',accept:'application/pdf',multi:false,btn:'Convert to PowerPoint',
+ note:'Every page keeps its exact size, layout, fonts and colours, because it is placed on a slide as a picture. The text on the slides is not editable.',
+ async run(files){
+  const f=files[0],pages=await pageImages(f,2,.92,(i,n)=>stat(`Converting page ${i} of ${n}…`));
+  const pres=new PptxGenJS();pres.defineLayout({name:'PDF',width:pages[0].w/72,height:pages[0].h/72});pres.layout='PDF';
+  for(const p of pages){
+    const url=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(p.blob)});
+    pres.addSlide().addImage({data:url,x:0,y:0,w:p.w/72,h:p.h/72});
+  }
+  return [{blob:await pres.write({outputType:'blob'}),name:f.name.replace(/\.pdf$/i,'')+'.pptx'}];
+ }}
+];
+
+let cur=null,files=[];
+const grid=$('grid');
+TOOLS.forEach(t=>{
+  const b=document.createElement('button');b.className='tool';b.type='button';b.id='t-'+t.id;
+  b.innerHTML=`<span class="fmt">${t.fmt}</span><h3>${t.name}</h3><p>${t.desc}</p>`;
+  b.onclick=()=>pick(t.id,true);grid.appendChild(b);
+});
+function renderFiles(){
+  $('files').innerHTML=files.map(f=>`<li>${f.name} (${kb(f.size)})</li>`).join('');
+  $('run').disabled=!files.length;
+}
+function pick(id,scroll){
+  const t=TOOLS.find(x=>x.id===id)||TOOLS[0];cur=t;files=[];
+  document.querySelectorAll('.tool').forEach(b=>b.setAttribute('aria-pressed',b.id==='t-'+t.id));
+  $('wt').textContent=t.name;$('wd').textContent=t.desc;$('wn').textContent=t.note;
+  const fi=$('fi');fi.value='';fi.accept=t.accept;fi.multiple=t.multi;
+  $('dl').textContent=t.multi?'Choose files or drop them here':'Choose a file or drop it here';
+  $('run').textContent=t.btn;$('status').textContent='';$('res').innerHTML='';
+  $('opts').innerHTML=t.slider?'<label>Quality <input type="range" id="q" min="0.2" max="0.95" step="0.05" value="0.7"> <span id="qv">70%</span></label>':'';
+  if(t.slider)$('q').oninput=e=>$('qv').textContent=Math.round(e.target.value*100)+'%';
+  renderFiles();history.replaceState(null,'','#'+t.id);
+  if(scroll)$('work').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function setFiles(list){
+  const ok=[...list].filter(f=>{
+    if(cur.accept==='image/*')return f.type.startsWith('image/');
+    if(cur.accept==='application/pdf')return f.type==='application/pdf';
+    return new RegExp('\\'+cur.accept+'$','i').test(f.name);
+  });
+  files=cur.multi?ok:ok.slice(0,1);
+  $('res').innerHTML='';stat(ok.length<list.length?'Some files were skipped because they are the wrong type.':'');
+  renderFiles();
+}
+$('fi').onchange=e=>setFiles(e.target.files);
+const dz=$('drop');
+['dragover','dragenter'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('over')}));
+['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('over')}));
+dz.addEventListener('drop',e=>setFiles(e.dataTransfer.files));
+$('run').onclick=async()=>{
+  $('run').disabled=true;$('res').innerHTML='';
+  try{
+    const out=await cur.run(files);stat('Done. Your download is ready.');
+    out.forEach(o=>{
+      const a=document.createElement('a');a.href=URL.createObjectURL(o.blob);a.download=o.name;
+      a.textContent='Download '+o.name+(o.info?' ('+o.info+')':' ('+kb(o.blob.size)+')');$('res').appendChild(a);
+    });
+  }catch(err){stat('Could not convert: '+(err.message||'unknown error')+'. Try another file.')}
+  $('run').disabled=!files.length;
+};
+pick((location.hash||'').slice(1)||'jpg-to-pdf',false);
+</script>
+</body>
+</html>
